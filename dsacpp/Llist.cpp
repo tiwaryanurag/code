@@ -134,7 +134,6 @@ int main()
         else if (x==6)
         {
             
-
         }
         
         else if (x == 9)
