@@ -131,7 +131,11 @@ int main()
             cin >> val;
             updateAtPos(head, pos, val);
         }
+        else if (x==6)
+        {
 
+        }
+        
         else if (x == 9)
         {
             break;
