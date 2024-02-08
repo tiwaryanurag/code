@@ -85,6 +85,21 @@ void delAtEnd(Node *&head)
     free(temp);
 }
 
+void delAtPos(Node* head, int pos)
+{
+    Node* prev= head;
+    int curremt_pos=0;
+    while(curremt_pos!= pos-1)
+    {
+        prev=prev->next;
+        curremt_pos++;
+    }
+    Node* temp=prev->next; //node to be deleted
+    prev->next=prev->next->next;
+    free(temp);
+}
+
+
 void display(Node *head)
 {
     Node *temp = head;
@@ -110,6 +125,7 @@ int main()
         cout << "5. update at any position" << endl;
         cout << "6. delete at head" << endl;
         cout << "7. delete at tail" << endl;
+        cout << "8. delete at any position: " << endl;
 
         cout << "9. Exit" << endl;
         cout << "Enter the choice: ";
@@ -159,7 +175,14 @@ int main()
         {
             delAtEnd(head);
         }
-
+        else if (x == 8)
+        {
+            int pos;
+            cout<<"Enter the position: ";
+            cin>>pos;
+            delAtPos(head,pos);
+            
+        }
         else if (x == 9)
         {
             break;
