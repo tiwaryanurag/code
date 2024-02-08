@@ -66,6 +66,25 @@ void updateAtPos(Node *&head, int pos, int val)
     temp->val = val;
 }
 
+void delAtHead(Node *&head)
+{
+    Node *temp = head;
+    head = head->next;
+    free(temp);
+}
+
+void delAtEnd(Node *&head)
+{
+    Node *second_last = head;
+    while (second_last->next->next != NULL)
+    {
+        second_last = second_last->next;
+    }
+    Node *temp = second_last->next; // node to be deleted at the end
+    second_last->next = NULL;
+    free(temp);
+}
+
 void display(Node *head)
 {
     Node *temp = head;
@@ -89,7 +108,8 @@ int main()
         cout << "3. Display the Link List" << endl;
         cout << "4. Insert at any position" << endl;
         cout << "5. update at any position" << endl;
-        cout << "6. delete at any position" << endl;
+        cout << "6. delete at head" << endl;
+        cout << "7. delete at tail" << endl;
 
         cout << "9. Exit" << endl;
         cout << "Enter the choice: ";
@@ -131,11 +151,15 @@ int main()
             cin >> val;
             updateAtPos(head, pos, val);
         }
-        else if (x==6)
+        else if (x == 6)
         {
-            
+            delAtHead(head);
         }
-        
+        else if (x == 7)
+        {
+            delAtEnd(head);
+        }
+
         else if (x == 9)
         {
             break;
@@ -148,4 +172,3 @@ int main()
 
     return 0;
 }
-
