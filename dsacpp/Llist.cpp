@@ -133,6 +133,7 @@ int main()
         }
         else if (x==6)
         {
+            
 
         }
         
