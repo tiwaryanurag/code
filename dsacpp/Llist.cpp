@@ -85,20 +85,31 @@ void delAtEnd(Node *&head)
     free(temp);
 }
 
-void delAtPos(Node* head, int pos)
+void delAtPos(Node *&head, int pos)
 {
-    Node* prev= head;
-    int curremt_pos=0;
-    while(curremt_pos!= pos-1)
+    Node *prev = head;
+    int curremt_pos = 0;
+    while (curremt_pos != pos - 1)
     {
-        prev=prev->next;
+        prev = prev->next;
         curremt_pos++;
     }
-    Node* temp=prev->next; //node to be deleted
-    prev->next=prev->next->next;
+    Node *temp = prev->next; // node to be deleted
+    prev->next = prev->next->next;
     free(temp);
 }
 
+void delAltElement(Node *&head)
+{
+    Node *curr_node = head;
+    while (curr_node != NULL && curr_node->next != NULL)
+    {
+        Node *temp = curr_node->next;
+        curr_node->next = curr_node->next->next;
+        free(temp);
+        curr_node = curr_node->next;
+    }
+}
 
 void display(Node *head)
 {
@@ -126,8 +137,10 @@ int main()
         cout << "6. delete at head" << endl;
         cout << "7. delete at tail" << endl;
         cout << "8. delete at any position: " << endl;
+        cout << "9. delete alternate position element: " << endl;
 
-        cout << "9. Exit" << endl;
+        
+        cout << "0. Exit" << endl;
         cout << "Enter the choice: ";
         cin >> x;
 
@@ -178,12 +191,16 @@ int main()
         else if (x == 8)
         {
             int pos;
-            cout<<"Enter the position: ";
-            cin>>pos;
-            delAtPos(head,pos);
-            
+            cout << "Enter the position: ";
+            cin >> pos;
+            delAtPos(head, pos);
         }
         else if (x == 9)
+        {
+            delAltElement(head);
+        }
+
+        else if (x == 0)
         {
             break;
         }
