@@ -141,7 +141,7 @@ int main()
 
         
         cout << "0. Exit" << endl;
-        cout << "Enter the choice: ";
+        cout << "Enter the choice:- ";
         cin >> x;
 
         if (x == 1)
