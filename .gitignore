@@ -3,3 +3,5 @@
 #ignore all files in any directory named temp
 temp/
 .vscode/
+/venv/
+
