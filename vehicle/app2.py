@@ -1,3 +1,5 @@
+import csv
+import os
 import numpy
 import cv2
 import pytesseract
@@ -7,11 +9,25 @@ import threading
 
 app = Flask(__name__)
 
+csv_file_path = '/home/aryan/code/vehicle/vehicle_database.csv'
+
+def load_vehicle_database():
+    database = {}
+    if os.path.exists(csv_file_path):
+        with open(csv_file_path, 'r', encoding='utf-8-sig', errors='replace') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                plate_number = row.get('plate_number', '')
+                database[plate_number] = {
+                    "owner_name": row.get('owner_name', ''),
+                    "make": row.get('make', ''),
+                    "model": row.get('model', ''),
+                    "color": row.get('color', '')
+                }
+    return database
+
 # Mock database for vehicle information
-vehicle_database = {
-    "HR26DK8337": {"owner_name": "Sankalp Patra", "make": "Toyota", "model": "Camry", "color": "Blue"},
-    "DL2C P 5428": {"owner_name": "John Doe", "make": "OLA", "model": "S1 PRO", "color": "Red"}
-}
+vehicle_database = load_vehicle_database()
 
 # List to store recognized license plate information
 recognized_plates = []
@@ -19,8 +35,7 @@ recognized_plates = []
 # Load the pre-trained license plate detection cascade
 plate_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_russian_plate_number.xml')
 
-# Path to Tesseract OCR executable (update this based on your installation)
-# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+# Path to Tesseract OCR executable
 pytesseract.pytesseract.tesseract_cmd = r'/usr/bin/tesseract'
 
 # Function to perform OCR on an image region
@@ -99,7 +114,7 @@ def video_feed():
     return Response(process_video(),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
-# Route for displaying recognized plates (showing information)
+# Route for displaying recognized plates
 @app.route('/recognized_plates')
 def recognized_plates_page():
     return render_template('recognized_plates.html', recognized_plates=recognized_plates)
@@ -107,4 +122,5 @@ def recognized_plates_page():
 if __name__ == '__main__':
     run_video_processing()
     app.run(debug=True)
+
 
