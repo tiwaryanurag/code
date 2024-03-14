@@ -12,10 +12,12 @@ app = Flask(__name__)
 # client = MongoClient('mongodb://localhost:27017/')
 # db = client['vehicle']
 
+client = MongoClient("mongodb+srv://vehicle:1234@atlascluster.uczqi01.mongodb.net/")
+db = client['vehicle_database']
 
 def load_vehicle_database():
-    client = MongoClient("mongodb+srv://vehicle:1234@atlascluster.uczqi01.mongodb.net/")
-    db = client['vehicle_database']
+    # client = MongoClient("mongodb+srv://vehicle:1234@atlascluster.uczqi01.mongodb.net/")
+    # db = client['vehicle_database']
     database = {}
     vehicles_collection = db['vehicle']
     for vehicle in vehicles_collection.find():
@@ -43,7 +45,6 @@ vehicle_database = load_vehicle_database()
 #     print(f"Color: {vehicle_info['color']}")
 #     print("-" * 20)
 #     print("-" * 20)
-
 
 
 # List to store recognized license plate information
@@ -113,7 +114,7 @@ def process_video():
                b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n\r\n')
 
     cap.release()
-    # Your existing video processing code
+
     pass
 
 # Function to run the video processing in a separate thread
