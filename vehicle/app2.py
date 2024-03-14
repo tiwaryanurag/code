@@ -9,7 +9,7 @@ import threading
 
 app = Flask(__name__)
 
-csv_file_path = '/home/aryan/code/vehicle/vehicle_database.csv'
+csv_file_path = '/home/aryan/code/vehicle/database.csv'
 
 def load_vehicle_database():
     database = {}

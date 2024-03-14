@@ -36,3 +36,4 @@ def scan_qr_code():
 while True:
     scan_qr_code()
     time.sleep(100)  # Add a delay to control scanning frequency
+
