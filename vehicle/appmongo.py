@@ -13,13 +13,6 @@ app = Flask(__name__)
 # db = client['vehicle']
 
 
-#mongodb online host
-# client = MongoClient("mongodb+srv://vehicle:1234@atlascluster.uczqi01.mongodb.net/")
-# db = client['vehicle_database']
-
-
-# Mock database for vehicle information
-# Instead of loading from CSV, retrieve from MongoDB
 def load_vehicle_database():
     client = MongoClient("mongodb+srv://vehicle:1234@atlascluster.uczqi01.mongodb.net/")
     db = client['vehicle_database']
@@ -39,14 +32,18 @@ def load_vehicle_database():
 
 vehicle_database = load_vehicle_database()
 
-print("Retrieved data from MongoDB:")
-for plate_number, vehicle_info in vehicle_database.items():
-    print(f"Plate Number: {plate_number}")
-    print(f"Owner Name: {vehicle_info['owner_name']}")
-    print(f"Make: {vehicle_info['make']}")
-    print(f"Model: {vehicle_info['model']}")
-    print(f"Color: {vehicle_info['color']}")
-    print("-" * 20)
+# for checking only whether it is printing the data or not
+
+# print("Retrieved data from MongoDB:")
+# for plate_number, vehicle_info in vehicle_database.items():
+#     print(f"Plate Number: {plate_number}")
+#     print(f"Owner Name: {vehicle_info['owner_name']}")
+#     print(f"Make: {vehicle_info['make']}")
+#     print(f"Model: {vehicle_info['model']}")
+#     print(f"Color: {vehicle_info['color']}")
+#     print("-" * 20)
+#     print("-" * 20)
+
 
 
 # List to store recognized license plate information
