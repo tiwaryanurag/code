@@ -8,10 +8,12 @@
     <title>License Plate Scanner</title>
     <style>
         body {
-            background-image: url("car_background.jpg");
+            background-image: url("{{ url_for('static', filename='car_background.jpg') }}");
+            /* background-image: url("car_background.jpg"); */
             background-color: rgba(0, 0, 0, 0.5);
             background-blend-mode: multiply;
         }
+
 
         /* h1{background-color: #d0bdf4; */
         h1 {
@@ -41,7 +43,7 @@
             background-color: transparent;
         }
 
-        img{
+        img {
             color: white;
         }
     </style>
