@@ -13,7 +13,10 @@ app = Flask(__name__)
 
 # Connect to local host MongoDB
 client = MongoClient('mongodb://localhost:27017/')
-db = client['vehicle'] #database name
+# db = client['vehicle'] #database 
+db= client.vehicle
+
+
 vehicles_collection = db['vehicle']  #collection name
 history_collection = db['history'] #collection name
 
@@ -187,50 +190,31 @@ def add_vehicle():
 
     return 'Vehicle information added successfully!'
 
-# @app.route('/history')
-# def history():
-#     # data=history(history_collection.find_one())
-#     # return render_template('history.html',data=data)
 
-#     past_24_hours = datetime.datetime.now() - datetime.timedelta(hours=24)
-#     # Query the history collection for documents within the past 24 hours
-#     data = history_collection.find({"timestamp": {"$gte": past_24_hours}})
+@app.route('/history')
+def history():
 
-
-
-@app.route('/yesterdays_data')
-def yesterdays_data():
+    # try:
+    #     data = db.history.find({})
+    #     return render_template('history.html', data=data)
+    #     #return dumps(names)
+    # except Exception as e:
+    #     return "An error occurred while fetching data from the database. Please check the logs for more information."
+    #     app.logger.error(f"Database error: {e}")
+    #     return error_message
     try:
-        current_time_utc = datetime.now(timezone.utc)
-
         # Calculate the timestamp for 24 hours ago
-        past_24_hours = current_time_utc - timedelta(hours=24)
-
+        past_24_hours = datetime.now() - timedelta(hours=24)
+        
         # Query the history collection for documents within the past 24 hours
         data = history_collection.find({"timestamp": {"$gte": past_24_hours}})
-
-        # Convert MongoDB timestamp strings to Python datetime objects and format them
-        # Convert MongoDB timestamp strings to Python datetime objects and format them
-        formatted_data = []
-        for entry in data:
-    # Parse the MongoDB timestamp string into a datetime object
-            timestamp = datetime.fromisoformat(entry['timestamp'])
-
-    # Format the datetime object without 'T' and timezone information
-            formatted_timestamp = timestamp.strftime('%Y-%m-%Day %H:%M:%S')
-
-    # Replace the timestamp in the entry with the formatted timestamp
-            entry['timestamp'] = formatted_timestamp
-
-    # Append the entry to the formatted_data list
-            formatted_data.append(entry)
-
-
-        return render_template('history.html', data=formatted_data)
-    
+        
+        return render_template('history.html', data=data)
     except Exception as e:
-        print("An error occurred while fetching data from the database:", e)
+        app.logger.error(f"An error occurred while fetching data from the database: {e}")
         return "An error occurred while fetching data from the database. Please check the logs for more information."
+
+
 
 if __name__ == '__main__':
     run_video_processing()
