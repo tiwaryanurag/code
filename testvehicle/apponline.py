@@ -5,7 +5,7 @@ from datetime import datetime, timedelta, timezone
 import pytesseract
 import requests
 from PIL import Image
-from flask import Flask, jsonify, render_template, Response, request
+from flask import Flask, jsonify, redirect, render_template, Response, request, url_for
 import threading
 from pymongo import MongoClient
 
@@ -178,7 +178,7 @@ def add_vehicle():
         "color": color
     })
 
-    return 'Vehicle information added successfully!'
+    return redirect(url_for('index'))
 
 
 @app.route('/')
