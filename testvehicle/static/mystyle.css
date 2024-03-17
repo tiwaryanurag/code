@@ -4,8 +4,6 @@
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    
-    /* background-image: url("{{ url_for('static', filename='car.jpg') }}"); */
     background-image: url("/static/car.jpg");
     /* background-image: url("http://127.0.0.1:5000/static/car.jpg"); */
     background-color: rgba(0, 0, 0, 0.5);
