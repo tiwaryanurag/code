@@ -1,7 +1,7 @@
 import os
 from unittest import result
 import cv2
-import datetime
+from datetime import datetime, timedelta
 import pytesseract
 import requests
 from PIL import Image
@@ -13,7 +13,9 @@ app = Flask(__name__)
 
 # Connect to local host MongoDB
 client = MongoClient('mongodb://localhost:27017/')
-db = client['vehicle']
+db = client['vehicle'] #database name
+vehicles_collection = db['vehicle']  #collection name
+history_collection = db['history'] #collection name
 
 # client = MongoClient("mongodb+srv://vehicle:1234@atlascluster.uczqi01.mongodb.net/")
 # db = client['vehicle_database']
@@ -96,7 +98,8 @@ def process_video():
                 # Check if the plate is already recognized
                 if plate_number not in [plate['plate_number'] for plate in recognized_plates]:
                     # Store the recognized plate information in the list
-                    timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
             
                     recognized_plates.append({
                         "plate_number": plate_number,
@@ -116,8 +119,6 @@ def process_video():
                         "color": vehicle_info['color'],
                         "timestamp": timestamp
                     })
-
-                    
 
                 # Display the vehicle information on the frame including owner name
                 info_text = f"Owner: {vehicle_info['owner_name']}, Make: {vehicle_info['make']}, Model: {vehicle_info['model']}, Color: {vehicle_info['color']}"
@@ -169,7 +170,7 @@ def add_vehicle():
     color = request.form['color']
 
     # Insert the new vehicle information into the MongoDB database
-    vehicles_collection = db['vehicle']
+    
     vehicles_collection.insert_one({
         "plate_number": plate_number,
         "owner_name": owner_name,
@@ -180,8 +181,32 @@ def add_vehicle():
 
     return 'Vehicle information added successfully!'
 
+# @app.route('/history')
+# def history():
+#     # data=history(history_collection.find_one())
+#     # return render_template('history.html',data=data)
+
+#     past_24_hours = datetime.datetime.now() - datetime.timedelta(hours=24)
+#     # Query the history collection for documents within the past 24 hours
+#     data = history_collection.find({"timestamp": {"$gte": past_24_hours}})
 
 
+@app.route('/yesterdays_data')
+def yesterdays_data():
+    # past_24_hours = datetime.datetime.now() - datetime.timedelta(hours=24)
+    # try:
+    #     past_24_hours = datetime.now() - timedelta(hours=24)
+    #     print("Past 24 hours:", past_24_hours)
+    #     data = history_collection.find({"timestamp": {"$gte": past_24_hours}})
+    #     print("Retrieved data:", data)
+
+    #     return render_template('history.html', data=data)
+    # except Exception as e:
+    #     print("An error occurred while fetching data from the database:", e)
+    #     return "An error occurred while fetching data from the database. Please check the logs for more information."
+    
+    data=history_collection(history_collection.find_one())
+    return render_template('history.html', data=data)
 
 
 if __name__ == '__main__':
