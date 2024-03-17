@@ -154,9 +154,9 @@ def get_utc_now():
     return datetime.now(timezone.utc)
 
 
-@app.route('/')
-def index():
-    return render_template('index.html')
+# @app.route('/')
+# def index():
+#     return render_template('index.html')
 
 
 @app.route('/video_feed')
@@ -191,17 +191,9 @@ def add_vehicle():
     return 'Vehicle information added successfully!'
 
 
-@app.route('/history')
-def history():
+@app.route('/')
+def index():
 
-    # try:
-    #     data = db.history.find({})
-    #     return render_template('history.html', data=data)
-    #     #return dumps(names)
-    # except Exception as e:
-    #     return "An error occurred while fetching data from the database. Please check the logs for more information."
-    #     app.logger.error(f"Database error: {e}")
-    #     return error_message
     try:
         # Calculate the timestamp for 24 hours ago
         past_24_hours = datetime.now() - timedelta(hours=24)
@@ -209,7 +201,7 @@ def history():
         # Query the history collection for documents within the past 24 hours
         data = history_collection.find({"timestamp": {"$gte": past_24_hours}})
         
-        return render_template('history.html', data=data)
+        return render_template('index.html', data=data)
     except Exception as e:
         app.logger.error(f"An error occurred while fetching data from the database: {e}")
         return "An error occurred while fetching data from the database. Please check the logs for more information."

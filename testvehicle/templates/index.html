@@ -27,7 +27,7 @@
             <ul>
                 <li><a href="#" id="openScannerLink">Open Scanner</a></li>
                 <li><a href="#" id="addVehicleDetailsLink">Add Vehicle Details</a></li>
-                <li><a href="#" id="yesterdaysDataLink">Yesterday's Data</a></li>
+                <li><a href="/" id="yesterdaysDataLink">Yesterday's Data</a></li>
             </ul>
         </nav>
 
@@ -125,7 +125,8 @@
             document.getElementById('yesterdaysDataSection').style.display = 'none';
         });
 
-        document.querySelector('nav ul li:nth-child(3) a').addEventListener('click', function () {
+        document.querySelector('nav ul li:nth-child(3) a').addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the default action of the link
             document.getElementById('scannerSection').style.display = 'none';
             document.getElementById('addVehicleSection').style.display = 'none';
             var historySection = document.getElementById('yesterdaysDataSection');
