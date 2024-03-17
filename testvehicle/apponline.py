@@ -13,19 +13,17 @@ app = Flask(__name__)
 
 # Connect to local host MongoDB
 client = MongoClient('mongodb://localhost:27017/')
-# db = client['vehicle'] #database 
 db= client.vehicle
-
-
-vehicles_collection = db['vehicle']  #collection name
-history_collection = db['history'] #collection name
+# db = client['vehicle'] #database 
 
 # client = MongoClient("mongodb+srv://vehicle:1234@atlascluster.uczqi01.mongodb.net/")
 # db = client['vehicle_database']
 
+vehicles_collection = db['vehicle']  #collection name
+history_collection = db['history'] #collection name
+
 def load_vehicle_database():
-    # client = MongoClient("mongodb+srv://vehicle:1234@atlascluster.uczqi01.mongodb.net/")
-    # db = client['vehicle_database']
+
     database = {}
     vehicles_collection = db['vehicle']
     for vehicle in vehicles_collection.find():
@@ -40,11 +38,9 @@ def load_vehicle_database():
     print("Vehicle database loaded successfully.")
     return database
 
-
 vehicle_database = load_vehicle_database()
 
 # for checking only whether it is printing the data or not
-
 # print("Retrieved data from MongoDB:")
 # for plate_number, vehicle_info in vehicle_database.items():
 #     print(f"Plate Number: {plate_number}")
@@ -114,7 +110,7 @@ def process_video():
                         "timestamp": timestamp
                     })
 
-                    history_collection = db['history']
+                    # history_collection = db['history']
                     history_collection.insert_one({
                         "plate_number": plate_number,
                         "owner_name": vehicle_info['owner_name'],
@@ -149,14 +145,8 @@ def run_video_processing():
     # Your existing code for running video processing
     pass
 
-
 def get_utc_now():
     return datetime.now(timezone.utc)
-
-
-# @app.route('/')
-# def index():
-#     return render_template('index.html')
 
 
 @app.route('/video_feed')
