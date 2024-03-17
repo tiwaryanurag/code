@@ -1,6 +1,7 @@
 import os
 from unittest import result
 import cv2
+import datetime
 import pytesseract
 import requests
 from PIL import Image
@@ -11,11 +12,11 @@ from pymongo import MongoClient
 app = Flask(__name__)
 
 # Connect to local host MongoDB
-# client = MongoClient('mongodb://localhost:27017/')
-# db = client['vehicle']
+client = MongoClient('mongodb://localhost:27017/')
+db = client['vehicle']
 
-client = MongoClient("mongodb+srv://vehicle:1234@atlascluster.uczqi01.mongodb.net/")
-db = client['vehicle_database']
+# client = MongoClient("mongodb+srv://vehicle:1234@atlascluster.uczqi01.mongodb.net/")
+# db = client['vehicle_database']
 
 def load_vehicle_database():
     # client = MongoClient("mongodb+srv://vehicle:1234@atlascluster.uczqi01.mongodb.net/")
@@ -30,6 +31,7 @@ def load_vehicle_database():
             "model": vehicle['model'],
             "color": vehicle['color']
         }
+
     print("Vehicle database loaded successfully.")
     return database
 
@@ -94,13 +96,28 @@ def process_video():
                 # Check if the plate is already recognized
                 if plate_number not in [plate['plate_number'] for plate in recognized_plates]:
                     # Store the recognized plate information in the list
+                    timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+            
                     recognized_plates.append({
                         "plate_number": plate_number,
                         "owner_name": vehicle_info['owner_name'],
                         "make": vehicle_info['make'],
                         "model": vehicle_info['model'],
-                        "color": vehicle_info['color']
+                        "color": vehicle_info['color'],
+                        "timestamp": timestamp
                     })
+
+                    history_collection = db['history']
+                    history_collection.insert_one({
+                        "plate_number": plate_number,
+                        "owner_name": vehicle_info['owner_name'],
+                        "make": vehicle_info['make'],
+                        "model": vehicle_info['model'],
+                        "color": vehicle_info['color'],
+                        "timestamp": timestamp
+                    })
+
+                    
 
                 # Display the vehicle information on the frame including owner name
                 info_text = f"Owner: {vehicle_info['owner_name']}, Make: {vehicle_info['make']}, Model: {vehicle_info['model']}, Color: {vehicle_info['color']}"
@@ -162,6 +179,10 @@ def add_vehicle():
     })
 
     return 'Vehicle information added successfully!'
+
+
+
+
 
 if __name__ == '__main__':
     run_video_processing()

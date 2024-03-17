@@ -25,7 +25,6 @@
         
     }
 
-
     </style>
 
 </head>
@@ -40,6 +39,8 @@
                 <th>Make</th>
                 <th>Model</th>
                 <th>Color</th>
+                <th>Time Stamp</th>
+
             </tr>
         </thead>
 
@@ -51,6 +52,7 @@
                 <td>{{ plate.make }}</td>
                 <td>{{ plate.model }}</td>
                 <td>{{ plate.color }}</td>
+                <td>{{ plate.timestamp }}</td>
             </tr>
             {% endfor %}
         </tbody>
