@@ -75,7 +75,7 @@
                 <div id="successMessage" style="display: none; color: green;"></div>
             </div>
 
-            <div id="yesterdaysDataSection" style="display: none;">
+            <div class="his" id="yesterdaysDataSection" style="display: none;">
                 <h2>Yesterday's Data</h2>
 
                 <h1>History of prevoius 24 hours</h1>
@@ -93,14 +93,14 @@
                     </thead>
 
                     <tbody>
-                        {% for history in data %}
+                        {% for record in data %}
                         <tr>
-                            <td>{{ history.plate_number }}</td>
-                            <td>{{ history.owner_name }}</td>
-                            <td>{{ history.make }}</td>
-                            <td>{{ history.model }}</td>
-                            <td>{{ history.color }}</td>
-                            <td>{{ history.timestamp }}</td>
+                            <td>{{ record.plate_number }}</td>
+                            <td>{{ record.owner_name }}</td>
+                            <td>{{ record.make }}</td>
+                            <td>{{ record.model }}</td>
+                            <td>{{ record.color }}</td>
+                            <td>{{ record.timestamp }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -108,34 +108,11 @@
 
                 <!-- Content for Yesterday's Data here -->
             </div>
-            <!-- </article> -->
+        </article>
     </section>
 
 
     <script>
-        // JavaScript to toggle visibility of sections
-        // document.querySelector('nav ul li:nth-child(1) a').addEventListener('click', function () {
-        //     document.getElementById('scannerSection').style.display = 'block';
-        //     document.getElementById('addVehicleSection').style.display = 'none';
-        //     document.getElementById('yesterdaysDataSection').style.display = 'none';
-        // });
-
-        // document.querySelector('nav ul li:nth-child(2) a').addEventListener('click', function () {
-        //     document.getElementById('scannerSection').style.display = 'none';
-        //     document.getElementById('addVehicleSection').style.display = 'block';
-        //     document.getElementById('yesterdaysDataSection').style.display = 'none';
-        // });
-
-        // document.querySelector('nav ul li:nth-child(3) a').addEventListener('click', function () {
-        //     var historySection = document.getElementById('yesterdaysDataSection');
-        //     historySection.style.display = (historySection.style.display === 'none') ? 'block' : 'none';
-
-        //     document.getElementById('scannerSection').style.display = 'none';
-        //     document.getElementById('addVehicleSection').style.display = 'none';
-        // });
-
-
-
         document.querySelector('nav ul li:nth-child(1) a').addEventListener('click', function () {
             document.getElementById('scannerSection').style.display = 'block';
             document.getElementById('addVehicleSection').style.display = 'none';

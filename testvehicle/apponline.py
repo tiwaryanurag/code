@@ -1,7 +1,7 @@
 import os
 from unittest import result
 import cv2
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import pytesseract
 import requests
 from PIL import Image
@@ -98,7 +98,8 @@ def process_video():
                 # Check if the plate is already recognized
                 if plate_number not in [plate['plate_number'] for plate in recognized_plates]:
                     # Store the recognized plate information in the list
-                    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    # timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                    timestamp = datetime.now()
 
             
                     recognized_plates.append({
@@ -144,6 +145,11 @@ def run_video_processing():
         app.video_thread.start()
     # Your existing code for running video processing
     pass
+
+
+def get_utc_now():
+    return datetime.now(timezone.utc)
+
 
 @app.route('/')
 def index():
@@ -191,23 +197,40 @@ def add_vehicle():
 #     data = history_collection.find({"timestamp": {"$gte": past_24_hours}})
 
 
+
 @app.route('/yesterdays_data')
 def yesterdays_data():
-    # past_24_hours = datetime.datetime.now() - datetime.timedelta(hours=24)
-    # try:
-    #     past_24_hours = datetime.now() - timedelta(hours=24)
-    #     print("Past 24 hours:", past_24_hours)
-    #     data = history_collection.find({"timestamp": {"$gte": past_24_hours}})
-    #     print("Retrieved data:", data)
+    try:
+        current_time_utc = datetime.now(timezone.utc)
 
-    #     return render_template('history.html', data=data)
-    # except Exception as e:
-    #     print("An error occurred while fetching data from the database:", e)
-    #     return "An error occurred while fetching data from the database. Please check the logs for more information."
+        # Calculate the timestamp for 24 hours ago
+        past_24_hours = current_time_utc - timedelta(hours=24)
+
+        # Query the history collection for documents within the past 24 hours
+        data = history_collection.find({"timestamp": {"$gte": past_24_hours}})
+
+        # Convert MongoDB timestamp strings to Python datetime objects and format them
+        # Convert MongoDB timestamp strings to Python datetime objects and format them
+        formatted_data = []
+        for entry in data:
+    # Parse the MongoDB timestamp string into a datetime object
+            timestamp = datetime.fromisoformat(entry['timestamp'])
+
+    # Format the datetime object without 'T' and timezone information
+            formatted_timestamp = timestamp.strftime('%Y-%m-%Day %H:%M:%S')
+
+    # Replace the timestamp in the entry with the formatted timestamp
+            entry['timestamp'] = formatted_timestamp
+
+    # Append the entry to the formatted_data list
+            formatted_data.append(entry)
+
+
+        return render_template('history.html', data=formatted_data)
     
-    data=history_collection(history_collection.find_one())
-    return render_template('history.html', data=data)
-
+    except Exception as e:
+        print("An error occurred while fetching data from the database:", e)
+        return "An error occurred while fetching data from the database. Please check the logs for more information."
 
 if __name__ == '__main__':
     run_video_processing()

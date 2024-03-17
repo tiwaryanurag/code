@@ -20,6 +20,14 @@ body {
     color: white;
 }
 
+.his {
+    color: white;
+    /* text-align: center; */
+    /* margin-left: auto;
+    margin-right: auto; */
+}
+
+
 /* Create two columns/boxes that floats next to each other */
 nav {
     float: left;
