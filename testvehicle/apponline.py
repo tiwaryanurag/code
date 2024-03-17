@@ -1,8 +1,10 @@
 import os
+from unittest import result
 import cv2
 import pytesseract
+import requests
 from PIL import Image
-from flask import Flask, render_template, Response
+from flask import Flask, jsonify, render_template, Response, request
 import threading
 from pymongo import MongoClient
 
@@ -140,7 +142,26 @@ def video_feed():
 def recognized_plates_page():
     return render_template('recognized_plates.html', recognized_plates=recognized_plates)
 
-# Routes for the Flask application
+
+@app.route('/add_vehicle', methods=['POST'])
+def add_vehicle():
+    plate_number = request.form['plate_number']
+    owner_name = request.form['owner_name']
+    make = request.form['make']
+    model = request.form['model']
+    color = request.form['color']
+
+    # Insert the new vehicle information into the MongoDB database
+    vehicles_collection = db['vehicle']
+    vehicles_collection.insert_one({
+        "plate_number": plate_number,
+        "owner_name": owner_name,
+        "make": make,
+        "model": model,
+        "color": color
+    })
+
+    return 'Vehicle information added successfully!'
 
 if __name__ == '__main__':
     run_video_processing()
