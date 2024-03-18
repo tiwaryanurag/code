@@ -12,7 +12,6 @@ from pymongo import MongoClient
 app = Flask(__name__)
 
 # Connect to local host MongoDB
-# db = client['vehicle'] #database 
 
 client = MongoClient('mongodb://localhost:27017/')
 db= client.vehicle
@@ -156,17 +155,12 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
-@app.route('/recognized_plates')
-def recognized_plates_page():
-    return render_template('recognized_plates.html', recognized_plates=recognized_plates)
-
-
+#login function
 app.secret_key = 'admin'  # Add a secret key for session management
 
 # Define admin credentials
 ADMIN_USERNAME = 'admin'
 ADMIN_PASSWORD = 'admin'
-
 
 # Add a login route
 @app.route('/', methods=['GET', 'POST'])
@@ -209,8 +203,12 @@ def add_vehicle():
         "model": model,
         "color": color
     })
-
     return redirect(url_for('index'))
+
+
+@app.route('/recognized_plates')
+def recognized_plates_page():
+    return render_template('recognized_plates.html', recognized_plates=recognized_plates)
 
 
 @app.route('/index')
