@@ -54,8 +54,6 @@
             <div id="addVehicleSection" style="display: none;">
 
                 <h2>Add New Vehicle Information</h2>
-                <!-- Login form -->
-                
                 <form id="addVehicleForm" method="POST" action="{{ url_for('add_vehicle') }}">
                     <label for="plate_number">Plate Number:</label>
                     <input type="text" id="plate_number" name="plate_number" required><br><br>
@@ -75,10 +73,9 @@
                     <input type="submit" value="Submit">
                     <input type="reset" value="Reset">
                 </form>
-                
 
                 <div id="successMessage" style="display: none; color: green;"></div>
-            </div>  
+            </div>
 
             <div class="his" id="yesterdaysDataSection" style="display: none;">
                 <h2>Yesterday's Data</h2>
