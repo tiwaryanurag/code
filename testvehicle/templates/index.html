@@ -12,17 +12,18 @@
 
 <body>
 
-    <h2> Vehicle Number PLate Detection System</h2>
+    <h1> Vehicle Number PLate Detection System</h1>
+    <br><br>
     <p style="color: white;">Utilizing Machine Learning (ML) algorithms and OpenCV, our Vehicle Number Plate Detection
         system extracts license plate information from real-time footage with precision. Integrated with MongoDB for
         efficient data storage, this solution offers seamless scalability and data management. Powered by Flask and
         pytesseract, our system provides a user-friendly interface for accessing and analyzing vehicle data, ensuring
-        efficient monitoring and management of traffic and security systems.</p>
-
-    <p class="para1">
-        <!-- <h2>Cities</h2> -->
+        efficient monitoring and management of traffic and security systems.
     </p>
 
+    <!-- used for making the space between the description and the navigation -->
+    <p class="para1"></p>  
+    
     <section>
         <nav>
             <ul>
@@ -34,17 +35,14 @@
 
         <article>
             <div id="scannerSection" style="display: none;">
-                <h1 style="color: white;">Scan</h1>
-
-                <div style="display: flex; justify-content: center; align-items: center;">
-
+                <h2 class="scan">Scan</h2>
+                <div class="video">
                     <img src="{{ url_for('video_feed') }}" alt="License Plate Scanner">
                 </div>
 
-                <br><br><br><br><br><br><br><br>
+                <br><br>
                 <div>
-                    <a href="http://127.0.0.1:5000/recognized_plates" target="_blank">Click here to view recognized
-                        plates</a>
+                    <a href="http://127.0.0.1:5000/recognized_plates" target="_blank">Click here to view recognized plates</a>
 
                 </div>
             </div>
@@ -53,7 +51,7 @@
             <!-- <article> -->
             <div id="addVehicleSection" style="display: none;">
 
-                <h2>Add New Vehicle Information</h2>
+                <h2 class="vehicle">Add New Vehicle Information</h2>
                 <!-- Login form -->
                 
                 <form id="addVehicleForm" method="POST" action="{{ url_for('add_vehicle') }}">
@@ -81,9 +79,8 @@
             </div>  
 
             <div class="his" id="yesterdaysDataSection" style="display: none;">
-                <h2>Yesterday's Data</h2>
+                <h2 class="yesterday">History of previous 24 hours</h2>
 
-                <h1>History of prevoius 24 hours</h1>
                 <table border="1">
                     <thead>
                         <tr>
