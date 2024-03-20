@@ -22,15 +22,14 @@
     </p>
 
     <!-- used for making the space between the description and the navigation -->
-    <p class="para1"></p>
-
+    <p class="para1"></p>  
+    
     <section>
         <nav>
             <ul>
                 <li><a href="#" id="openScannerLink">Open Scanner</a></li>
                 <li><a href="#" id="addVehicleDetailsLink">Add Vehicle Details</a></li>
                 <li><a href="/" id="yesterdaysDataLink">Yesterday's Data</a></li>
-                <li><a href="#" id="allRecords">All Records</a></li>
             </ul>
         </nav>
 
@@ -43,8 +42,7 @@
 
                 <br><br>
                 <div>
-                    <a href="http://127.0.0.1:5000/recognized_plates" target="_blank">Click here to view recognized
-                        plates</a>
+                    <a href="http://127.0.0.1:5000/recognized_plates" target="_blank">Click here to view recognized plates</a>
 
                 </div>
             </div>
@@ -55,7 +53,7 @@
 
                 <h2 class="vehicle">Add New Vehicle Information</h2>
                 <!-- Login form -->
-
+                
                 <form id="addVehicleForm" method="POST" action="{{ url_for('add_vehicle') }}">
                     <label for="plate_number">Plate Number:</label>
                     <input type="text" id="plate_number" name="plate_number" required><br><br>
@@ -75,10 +73,10 @@
                     <input type="submit" value="Submit">
                     <input type="reset" value="Reset">
                 </form>
-
+                
 
                 <div id="successMessage" style="display: none; color: green;"></div>
-            </div>
+            </div>  
 
             <div class="his" id="yesterdaysDataSection" style="display: none;">
                 <h2 class="yesterday">History of previous 24 hours</h2>
@@ -112,44 +110,6 @@
 
                 <!-- Content for Yesterday's Data here -->
             </div>
-
-
-
-            <div class="records" id="allRecords" style="display: none;">
-                <h2 class="record">All Vehicle Records</h2>
-
-                <table border="1">
-                    <thead>
-                        <tr>
-                            <th>Plate Number</th>
-                            <th>Owner Name</th>
-                            <th>Make</th>
-                            <th>Model</th>
-                            <th>Color</th>
-                            <!-- <th>Time Stamp</th> -->
-
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {% for record in records %}
-                        <tr>
-                            <td>{{ record.plate_number }}</td>
-                            <td>{{ record.owner_name }}</td>
-                            <td>{{ record.make }}</td>
-                            <td>{{ record.model }}</td>
-                            <td>{{ record.color }}</td>
-                            <!-- <td>{{ record.timestamp }}</td> -->
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-
-
-
-
-
         </article>
     </section>
 
@@ -159,14 +119,12 @@
             document.getElementById('scannerSection').style.display = 'block';
             document.getElementById('addVehicleSection').style.display = 'none';
             document.getElementById('yesterdaysDataSection').style.display = 'none';
-            document.getElementById('allRecords').style.display = 'none';
         });
 
         document.querySelector('nav ul li:nth-child(2) a').addEventListener('click', function () {
             document.getElementById('scannerSection').style.display = 'none';
             document.getElementById('addVehicleSection').style.display = 'block';
             document.getElementById('yesterdaysDataSection').style.display = 'none';
-            document.getElementById('allRecords').style.display = 'none';
         });
 
         document.querySelector('nav ul li:nth-child(3) a').addEventListener('click', function (event) {
@@ -175,27 +133,7 @@
             document.getElementById('addVehicleSection').style.display = 'none';
             var historySection = document.getElementById('yesterdaysDataSection');
             historySection.style.display = (historySection.style.display === 'none') ? 'block' : 'none';
-            document.getElementById('allRecords').style.display = 'none';
         });
-
-        document.querySelector('nav ul li:nth-child(4) a').addEventListener('click', function () {
-            document.getElementById('scannerSection').style.display = 'none';
-            document.getElementById('addVehicleSection').style.display = 'none';
-            document.getElementById('yesterdaysDataSection').style.display = 'none';
-            document.getElementById('allRecords').style.display = 'block';
-        });
-
-        // document.querySelector('nav ul li:nth-child(4) a').addEventListener('click', function () {
-        //     document.getElementById('scannerSection').style.display = 'none';
-        //     document.getElementById('addVehicleSection').style.display = 'none';
-        //     document.getElementById('yesterdaysDataSection').style.display = 'none';
-        //     var allRecordsSection = document.getElementById('allRecords');
-        //     allRecordsSection.style.display = (allRecordsSection.style.display === 'none') ? 'block' : 'none';
-        // });
-
-
-
-
     </script>
 
 
