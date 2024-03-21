@@ -19,7 +19,7 @@ db= client.vehicle
 # client = MongoClient("mongodb+srv://vehicle:1234@atlascluster.uczqi01.mongodb.net/")
 # db = client['vehicle_database']
 
-vehicles_collection = db['vehicle']  #collection name
+vehicles_collection = db['vehicle']  #collection name   
 history_collection = db['history'] #collection name
 
 def load_vehicle_database():
@@ -204,6 +204,7 @@ def add_vehicle():
         "color": color
     })
     return redirect(url_for('index'))
+    # return redirect(url_for('add_vehicle'))
 
 
 @app.route('/recognized_plates')
@@ -213,18 +214,42 @@ def recognized_plates_page():
 
 @app.route('/index')
 def index():
-
     try:
         # Calculate the timestamp for 24 hours ago
+        
         past_24_hours = datetime.now() - timedelta(hours=24)
         
         # Query the history collection for documents within the past 24 hours
         data = history_collection.find({"timestamp": {"$gte": past_24_hours}})
         
         return render_template('index.html', data=data)
+        return render_template('index.html', data=database)
+    
     except Exception as e:
         app.logger.error(f"An error occurred while fetching data from the database: {e}")
         return "An error occurred while fetching data from the database. Please check the logs for more information."
+    
+
+@app.route('/records')
+def records():
+
+    try:
+
+        database = {}
+        records_collection = db['vehicle']
+        database = records_collection.find()
+
+        # Logging successful fetch
+        app.logger.info("Records fetched successfully")
+
+        # Returning the database for rendering in the template
+        return render_template('records.html', rec=database)
+
+    except Exception as e:
+        app.logger.error(f"An error occurred while fetching records from the database: {e}")
+        return "An error occurred while fetching records from the database. Please check the logs for more information."
+
+
 
 
 
